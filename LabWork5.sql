@@ -18,7 +18,7 @@ JOIN
     book ON authors.id = book.author_id;
 
 DELETE FROM `market`.`tempbooks`
-WHERE `titlle` LIKE '%компьютер%';
+WHERE `title` LIKE '%компьютер%';
 
 UPDATE `market`.`tempbooks`
 SET 
