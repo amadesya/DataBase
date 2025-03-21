@@ -45,3 +45,13 @@ WHERE `id` NOT IN (
     FROM `orders`
 );
 
+REPLACE INTO `authors` (`id`, `surname`, `name`, `country`)
+VALUES (NULL, 'Пушкин', 'Александр', 'Россия');
+
+INSERT INTO `authors` (`surname`, `name`, `country`)
+VALUES ('Пушкин', 'Александр', 'США')
+ON DUPLICATE KEY UPDATE
+    `country` = VALUES(`country`);
+
+
+
