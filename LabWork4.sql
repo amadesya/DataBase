@@ -21,9 +21,33 @@ WHERE id NOT IN (
 
 #Task 4
 SELECT 
-    login,
-    id
-FROM customers
+    customers.login,
+    COUNT(DISTINCT orders.id) AS order_count,
+    SUM(composition.count) AS book_count,
+    SUM(book.price * composition.count) AS book_total_price
+FROM
+    customers
+        JOIN
+    orders ON customers.id = orders.customers_id
+        JOIN
+    composition ON composition.order_id = orders.id
+        JOIN
+    book ON composition.book_id = book.id
+GROUP BY customers.login;
 
 #Task 5
-
+SELECT 
+    customers.login,
+    COUNT(DISTINCT orders.id) AS order_count,
+    SUM(composition.count) AS book_count,
+    SUM(book.price * composition.count) AS book_total_price
+FROM
+    customers
+        JOIN
+    orders ON customers.id = orders.customers_id
+        JOIN
+    composition ON composition.order_id = orders.id
+        JOIN
+    book ON composition.book_id = book.id
+GROUP BY customers.login
+HAVING book_count > 10;
