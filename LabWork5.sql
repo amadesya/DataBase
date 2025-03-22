@@ -1,12 +1,13 @@
-CREATE TABLE `market`.`tempbooks` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `surname` VARCHAR(50) NOT NULL,
-  `name` VARCHAR(50) NOT NULL,
-  `titlle` VARCHAR(50) NOT NULL,
-  `price` DECIMAL(6,2) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`));
+CREATE TABLE tempbooks (
+    id INT NOT NULL AUTO_INCREMENT,
+    surname VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    price DECIMAL(6 , 2 ) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
 
-INSERT INTO `market`.`tempbooks` (surname, name, titlle, price)
+INSERT INTO tempbooks (surname, name, title, price)
 SELECT 
     authors.surname,
     authors.name,
@@ -17,19 +18,18 @@ FROM
 JOIN 
     book ON authors.id = book.author_id;
 
-DELETE FROM `market`.`tempbooks`
-WHERE `title` LIKE '%компьютер%';
+DELETE FROM tempbooks
+WHERE title LIKE '%компьютер%';
 
-UPDATE `market`.`tempbooks`
+UPDATE tempbooks
 SET 
-    `price` = CASE 
-        WHEN `surname` = 'Пушкин' THEN `price` * 2
-        WHEN `surname` = 'Иванов' THEN `price` - 50
-        ELSE `price`
-    END
-WHERE `id` > 0;  -- Условие с индексированным столбцом
+    price = CASE 
+        WHEN surname = 'Пушкин' THEN price * 2
+        WHEN surname = 'Иванов' THEN price - 50
+        ELSE price
+    END;
 
-TRUNCATE TABLE `market`.`tempbooks`;
+TRUNCATE TABLE tempbooks;
 
 UPDATE book
         JOIN
@@ -37,21 +37,20 @@ UPDATE book
 SET 
     book.price = book.price + 100
 WHERE
-    authors.country = 'Росcия'
+    authors.country = 'Росcия';
 
-DELETE FROM `customers`
-WHERE `id` NOT IN (
-    SELECT `customers_id`
-    FROM `orders`
+DELETE FROM customers
+WHERE id NOT IN (
+    SELECT customers_id
+    FROM orders
 );
 
-REPLACE INTO `authors` (`id`, `surname`, `name`, `country`)
-VALUES (NULL, 'Пушкин', 'Александр', 'Россия');
+REPLACE INTO authors (surname, name, country)
+VALUES ('Пушкин', 'Александр', 'Россия');
 
-INSERT INTO `authors` (`surname`, `name`, `country`)
-VALUES ('Пушкин', 'Александр', 'США')
+INSERT INTO authors (surname, name, country)
+VALUES ('1', '1', 'США')
 ON DUPLICATE KEY UPDATE
-    `country` = VALUES(`country`);
-
+    country = VALUES(country);
 
 
